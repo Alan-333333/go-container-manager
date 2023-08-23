@@ -22,14 +22,27 @@ func NewContainerManager() (*ContainerManager, error) {
 	return &ContainerManager{dockerClient}, nil
 }
 
-func (m *ContainerManager) Create(image string) (string, error) {
-	hostConfig := &container.HostConfig{}
+func (m *ContainerManager) Create(opts CreateOptions) (string, error) {
+
+	config := &container.Config{
+		Image: opts.Image,
+		Cmd:   opts.Cmd,
+	}
+
+	resources := container.Resources{
+		Memory:   opts.Memory,
+		NanoCPUs: opts.CPU,
+	}
+
+	hostConfig := &container.HostConfig{
+		Binds:     opts.Binds,
+		Resources: resources,
+	}
+
 	networkingConfig := &network.NetworkingConfig{}
 
 	resp, err := m.dockerClient.ContainerCreate(context.Background(),
-		&container.Config{
-			Image: image,
-		},
+		config,
 		hostConfig,
 		networkingConfig,
 		nil, "",

@@ -6,10 +6,10 @@
 
 ## 安装和使用说明
 
-1. 下载代码： `git clone <https://github.com/username/repo.git`>
-2. 安装依赖： `go get -d ./...`
-3. 编译： `go build`
-4. 运行： `./container-manager`
+1. 下载代码： `git clone <https://github.com/Alan-333333/go-container-managerr`>
+2. 安装依赖： `go mod tidy`
+3. 编译： `go build cmd/manager/main.go`
+4. 运行： `./manager`
 
 ## 特性列表
 
@@ -54,5 +54,6 @@ Copy code
 # 编译
 ```
 go build cmd/manager/main.go
+
 ```
 会生成可执行文件manager

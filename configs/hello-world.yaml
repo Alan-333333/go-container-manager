@@ -1,0 +1,8 @@
+name: app
+image: hello-world
+memory: 1000000
+cpu: 1000000000
+network: host
+volumes:
+  - /data:/data
+cmd: 

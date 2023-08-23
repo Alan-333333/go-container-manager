@@ -44,7 +44,11 @@ func startCLI(manager *container.ContainerManager) {
 				return
 			}
 			image := input.params[0]
-			id, err := manager.Create(image)
+			imageOption, err := container.LoadConfig(image)
+			if err != nil {
+				log.Fatal(err)
+			}
+			id, err := manager.Create(imageOption)
 			if err != nil {
 				log.Fatal(err)
 			}
