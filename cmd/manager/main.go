@@ -38,6 +38,30 @@ func startCLI(manager *container.ContainerManager) {
 		input := parseInput()
 		switch input.command {
 
+		case "build":
+			if len(input.params) < 1 {
+				helpBuild()
+				return
+			}
+
+			image := input.params[0]
+			imageOption, err := container.LoadConfig(image)
+			if err != nil {
+				log.Fatal(err)
+			}
+
+			err = container.CloneRepository(imageOption.RepoURL, imageOption.Name)
+
+			if err != nil {
+				log.Fatal(err)
+			}
+			fmt.Println("repo clone finish")
+			id, err := manager.Create(imageOption)
+			if err != nil {
+				log.Fatal(err)
+			}
+
+			fmt.Println("Created container", id)
 		case "create":
 			if len(input.params) < 1 {
 				helpCreate()
@@ -99,12 +123,17 @@ func startCLI(manager *container.ContainerManager) {
 
 func help() {
 	fmt.Println("Usage:")
+	fmt.Println("  build <image>     Build a new Image")
 	fmt.Println("  create <image>     Create a new container")
 	fmt.Println("  start <id>         Start a container")
 	fmt.Println("  stop <id>          Stop a running container")
 	fmt.Println("  remove <id>        Remove a stopped container")
 }
 
+func helpBuild() {
+	fmt.Println("Usage: build <image>")
+	fmt.Println("Example: build nginx:latest")
+}
 func helpCreate() {
 	fmt.Println("Usage: create <image>")
 	fmt.Println("Example: create nginx:latest")
