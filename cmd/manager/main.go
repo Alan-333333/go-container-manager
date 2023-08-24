@@ -43,11 +43,19 @@ func startCLI(manager *container.ContainerManager) {
 				helpCreate()
 				return
 			}
+
 			image := input.params[0]
 			imageOption, err := container.LoadConfig(image)
 			if err != nil {
 				log.Fatal(err)
 			}
+
+			err = container.CloneRepository(imageOption.RepoURL, imageOption.Name)
+
+			if err != nil {
+				log.Fatal(err)
+			}
+			fmt.Println("repo clone finish")
 			id, err := manager.Create(imageOption)
 			if err != nil {
 				log.Fatal(err)

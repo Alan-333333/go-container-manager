@@ -11,3 +11,7 @@ func init() {
 	cliPath, _ := filepath.Abs(filepath.Dir(os.Args[0]))
 	PORJECT_ROOT = cliPath + "/../../"
 }
+
+func GetProjectRoot() string {
+	return PORJECT_ROOT
+}
