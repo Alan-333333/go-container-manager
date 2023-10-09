@@ -51,7 +51,7 @@ func startCLI(manager *container.ContainerManager) {
 				log.Fatal(err)
 			}
 
-			err = container.CloneRepository(imageOption.RepoURL, imageOption.Name)
+			err = repo.CloneRepository(imageOption.RepoURL, imageOption.Name)
 
 			if err != nil {
 				log.Fatal(err)
