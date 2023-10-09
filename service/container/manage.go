@@ -14,7 +14,7 @@ type ContainerManager struct {
 }
 
 func NewContainerManager() (*ContainerManager, error) {
-	dockerClient, err := client.NewEnvClient()
+	dockerClient, err := client.NewClientWithOpts(client.FromEnv)
 	if err != nil {
 		return nil, err
 	}

@@ -8,6 +8,7 @@ import (
 	"strings"
 
 	"github.com/Alan-333333/go-container-manager/service/container"
+	"github.com/Alan-333333/go-container-manager/service/repo"
 )
 
 type Input struct {
@@ -74,18 +75,13 @@ func startCLI(manager *container.ContainerManager) {
 				log.Fatal(err)
 			}
 
-			err = container.CloneRepository(imageOption.RepoURL, imageOption.Name)
-
+			containerId, err := manager.Create(imageOption)
 			if err != nil {
-				log.Fatal(err)
-			}
-			fmt.Println("repo clone finish")
-			id, err := manager.Create(imageOption)
-			if err != nil {
+				repo.RemoveRepository(imageOption.Name)
 				log.Fatal(err)
 			}
 
-			fmt.Println("Created container", id)
+			fmt.Println("Created container, id:", containerId)
 
 		case "start":
 			if len(input.params) < 1 {
@@ -134,6 +130,7 @@ func helpBuild() {
 	fmt.Println("Usage: build <image>")
 	fmt.Println("Example: build nginx:latest")
 }
+
 func helpCreate() {
 	fmt.Println("Usage: create <image>")
 	fmt.Println("Example: create nginx:latest")
